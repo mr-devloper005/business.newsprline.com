@@ -30,20 +30,20 @@ export async function FooterOverride() {
   ).slice(0, 8)
 
   return (
-    <footer className="mt-10 border-t border-[#FA9884]/35 bg-[#2b1414] text-[#FFE5CA]">
+    <footer className="mt-10 border-t border-[#cbd8ea] bg-[#2d57a9] text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#E74646] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#13c8b1] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
               PR Desk
             </div>
             <h3 className="mt-4 text-2xl font-semibold">{SITE_CONFIG.name}</h3>
-            <p className="mt-3 text-sm leading-7 text-[#ffd7bd]">
+            <p className="mt-3 text-sm leading-7 text-white/85">
               Distribution-focused newsroom for release media, brand announcements, and latest media updates.
             </p>
           </div>
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#FA9884]">Platform</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#9fe9dd]">Platform</h4>
             <div className="mt-4 grid gap-2 text-sm">
               <Link href="/latest-news" className="hover:text-white">Latest News</Link>
               <Link href="/updates" className="hover:text-white">Release Media</Link>
@@ -51,7 +51,7 @@ export async function FooterOverride() {
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#FA9884]">Company</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#9fe9dd]">Company</h4>
             <div className="mt-4 grid gap-2 text-sm">
               <Link href="/about" className="hover:text-white">About</Link>
               <Link href="/contact" className="hover:text-white">Contact</Link>
@@ -60,7 +60,7 @@ export async function FooterOverride() {
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#FA9884]">Legal</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#9fe9dd]">Legal</h4>
             <div className="mt-4 grid gap-2 text-sm">
               <Link href="/privacy" className="hover:text-white">Privacy</Link>
               <Link href="/terms" className="hover:text-white">Terms</Link>
@@ -86,7 +86,7 @@ export async function FooterOverride() {
           </div>
         ) : null}
 
-        <div className="mt-10 border-t border-[#FA9884]/20 pt-5 text-sm text-[#ffd7bd]">
+        <div className="mt-10 border-t border-white/20 pt-5 text-sm text-white/85">
           &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
         </div>
       </div>

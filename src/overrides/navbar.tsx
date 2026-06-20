@@ -33,12 +33,12 @@ export function NavbarOverride() {
     <header className="sticky top-0 z-50 border-b border-[#FA9884]/35 bg-[#FFF3E2]/95 text-[#2f1515] backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-20 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-full bg-[#E74646] text-sm font-bold text-white">
-            PR
+          <div className="grid h-10 w-10 place-items-center overflow-hidden rounded-full border border-[#FA9884]/45 bg-white">
+            <img src="/favicon.png?v=20260520" alt={`${SITE_CONFIG.name} logo`} width="40" height="40" className="h-full w-full object-cover" />
           </div>
           <div>
             <p className="text-base font-semibold leading-tight">{SITE_CONFIG.name}</p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#9b5b5b]">updateprnews.com</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#9b5b5b]">busness.newspriline.com</p>
           </div>
         </Link>
 
