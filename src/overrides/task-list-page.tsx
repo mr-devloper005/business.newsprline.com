@@ -5,6 +5,7 @@ import { Footer } from '@/components/shared/footer'
 import { fetchTaskPosts } from '@/lib/task-data'
 import { ContentImage } from '@/components/shared/content-image'
 import type { TaskKey } from '@/lib/site-config'
+import { CATEGORY_OPTIONS } from '@/lib/categories'
 
 export const TASK_LIST_PAGE_OVERRIDE_ENABLED = true
 const FREE_STOCK_IMAGES = [
@@ -65,36 +66,40 @@ export async function TaskListPageOverride({
   })
   const recent = posts.slice(0, 5)
   const categoryOptions = Array.from(
-    new Set(posts.map((item) => String((item.content as any)?.category || 'General')))
+    new Set(
+      CATEGORY_OPTIONS
+        .map((item) => item.slug)
+        .filter((slug) => slug && slug !== 'all')
+    )
   )
   const activeCount = filtered.length
 
   return (
-    <div className="min-h-screen text-[#2f1515]">
+    <div className="min-h-screen bg-[#dfe3ea] text-[#16253d]">
       <NavbarShell />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <section className="rounded-3xl border border-[#FA9884]/40 bg-white p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E74646]">Latest News</p>
+        <section className="rounded-3xl border border-[#cbd8ea] bg-[#edf2f8] p-6 sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2d68cc]">Latest News</p>
           <h1 className="mt-2 text-4xl font-semibold tracking-[-0.04em]">Release media listing and discovery</h1>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-[#6c3b3b]">
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-[#4b617d]">
             Browse announcements with category and date filters, then open each release page for complete details.
           </p>
-          <form action="/latest-news" className="mt-6 grid gap-3 rounded-2xl border border-[#FFE5CA] bg-[#FFF3E2]/55 p-4 lg:grid-cols-[1fr_220px_220px_auto]">
+          <form action="/latest-news" className="mt-6 grid gap-3 rounded-2xl border border-[#d0ddef] bg-white/75 p-4 lg:grid-cols-[1fr_220px_220px_auto]">
             <label className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E74646]" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#2d68cc]" />
               <input
                 name="q"
                 defaultValue={query || ''}
                 placeholder="Search releases by title or keyword"
-                className="h-11 w-full rounded-xl border border-[#FA9884]/45 bg-white pl-9 pr-3 text-sm outline-none focus:border-[#E74646]"
+                className="h-11 w-full rounded-xl border border-[#cbd8ea] bg-white pl-9 pr-3 text-sm outline-none focus:border-[#2d68cc]"
               />
             </label>
             <label className="relative">
-              <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E74646]" />
+              <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#2d68cc]" />
               <select
                 name="category"
                 defaultValue={normalizedCategory}
-                className="h-11 w-full rounded-xl border border-[#FA9884]/45 bg-white pl-9 pr-3 text-sm outline-none focus:border-[#E74646]"
+                className="h-11 w-full rounded-xl border border-[#cbd8ea] bg-white pl-9 pr-3 text-sm outline-none focus:border-[#2d68cc]"
               >
                 <option value="all">All categories</option>
                 {categoryOptions.map((item) => (
@@ -105,11 +110,11 @@ export async function TaskListPageOverride({
               </select>
             </label>
             <label className="relative">
-              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E74646]" />
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#2d68cc]" />
               <select
                 name="date"
                 defaultValue={normalizedDateRange}
-                className="h-11 w-full rounded-xl border border-[#FA9884]/45 bg-white pl-9 pr-3 text-sm outline-none focus:border-[#E74646]"
+                className="h-11 w-full rounded-xl border border-[#cbd8ea] bg-white pl-9 pr-3 text-sm outline-none focus:border-[#2d68cc]"
               >
                 <option value="all">Any date</option>
                 <option value="7d">Last 7 days</option>
@@ -117,17 +122,17 @@ export async function TaskListPageOverride({
                 <option value="90d">Last 90 days</option>
               </select>
             </label>
-            <button type="submit" className="h-11 rounded-xl bg-[#E74646] px-5 text-sm font-semibold text-white hover:bg-[#c73737]">
+            <button type="submit" className="h-11 rounded-xl bg-[#2d68cc] px-5 text-sm font-semibold text-white hover:bg-[#2456aa]">
               Apply
             </button>
           </form>
-          <p className="mt-3 text-sm text-[#7b4a4a]">{activeCount} result{activeCount === 1 ? '' : 's'} found.</p>
+          <p className="mt-3 text-sm text-[#4b617d]">{activeCount} result{activeCount === 1 ? '' : 's'} found.</p>
         </section>
 
         <section className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
           <div className="grid gap-5 md:grid-cols-2">
             {filtered.map((post) => (
-              <article key={post.id} className="overflow-hidden rounded-2xl border border-[#FA9884]/35 bg-white transition hover:-translate-y-1 hover:shadow-lg">
+              <article key={post.id} className="overflow-hidden rounded-2xl border border-[#cbd8ea] bg-white transition hover:-translate-y-1 hover:shadow-lg">
                 <div className="relative h-48">
                   <ContentImage
                     src={getPostImage(post)}
@@ -139,47 +144,47 @@ export async function TaskListPageOverride({
                   />
                 </div>
                 <div className="p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#E74646]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2d68cc]">
                     {String((post.content as any)?.category || 'Release Media')}
                   </p>
                   <h2 className="mt-2 line-clamp-2 text-2xl font-semibold leading-snug">{post.title}</h2>
-                  <p className="mt-2 text-sm text-[#7b4a4a]">
+                  <p className="mt-2 text-sm text-[#4b617d]">
                     {post.authorName || 'Editorial Desk'}
                   </p>
-                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#6c3b3b]">{excerpt(post.summary)}</p>
-                  <Link href={`/updates/${post.slug}`} className="mt-4 inline-flex rounded-full border border-[#E74646] px-4 py-2 text-sm font-semibold text-[#E74646] hover:bg-[#fff2ef]">
+                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#4b617d]">{excerpt(post.summary)}</p>
+                  <Link href={`/updates/${post.slug}`} className="mt-4 inline-flex rounded-full border border-[#2d68cc] px-4 py-2 text-sm font-semibold text-[#2d68cc] hover:bg-[#eaf2ff]">
                     Read release
                   </Link>
                 </div>
               </article>
             ))}
             {!filtered.length ? (
-              <div className="col-span-full rounded-2xl border border-dashed border-[#FA9884]/70 bg-white p-10 text-center text-sm text-[#7b4a4a]">
+              <div className="col-span-full rounded-2xl border border-dashed border-[#a7c0e8] bg-white p-10 text-center text-sm text-[#4b617d]">
                 No matching release found. Try a different query or date range.
               </div>
             ) : null}
           </div>
 
           <aside className="space-y-5">
-            <div className="rounded-2xl border border-[#FA9884]/35 bg-white p-5">
+            <div className="rounded-2xl border border-[#cbd8ea] bg-white p-5">
               <h3 className="text-lg font-semibold">Quick search</h3>
               <form action="/search" className="mt-3 flex gap-2">
                 <input
                   name="q"
                   defaultValue={query || ''}
                   placeholder="Search the full site"
-                  className="h-11 flex-1 rounded-xl border border-[#FA9884]/45 px-3 text-sm outline-none focus:border-[#E74646]"
+                  className="h-11 flex-1 rounded-xl border border-[#cbd8ea] px-3 text-sm outline-none focus:border-[#2d68cc]"
                 />
-                <button type="submit" className="h-11 rounded-xl bg-[#E74646] px-4 text-sm font-semibold text-white hover:bg-[#c73737]">
+                <button type="submit" className="h-11 rounded-xl bg-[#2d68cc] px-4 text-sm font-semibold text-white hover:bg-[#2456aa]">
                   Go
                 </button>
               </form>
             </div>
-            <div className="rounded-2xl border border-[#FA9884]/35 bg-white p-5">
+            <div className="rounded-2xl border border-[#cbd8ea] bg-white p-5">
               <h3 className="text-lg font-semibold">Recent releases</h3>
               <div className="mt-3 grid gap-3">
                 {recent.map((post) => (
-                  <Link key={post.id} href={`/updates/${post.slug}`} className="rounded-xl border border-[#FFE5CA] bg-[#FFF3E2]/50 px-3 py-2 text-sm text-[#5d2f2f] hover:bg-[#FFE5CA]/65">
+                  <Link key={post.id} href={`/updates/${post.slug}`} className="rounded-xl border border-[#d5e3f5] bg-[#eff5ff] px-3 py-2 text-sm text-[#2f4f78] hover:bg-[#e0edff]">
                     {post.title}
                   </Link>
                 ))}

@@ -21,6 +21,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
+  type StoredAccount = {
+    id: string
+    name: string
+    email: string
+    password: string
+    user: User
+  }
+  const accountsStorageKey = `${storageKeys.user}-accounts`
+
   useEffect(() => {
     const storedUser = loadFromStorage<User | null>(storageKeys.user, null)
     if (storedUser) {
@@ -46,23 +55,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true)
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Mock login - in production this would validate credentials
-    if (email && password) {
-      const storedUser = loadFromStorage<User | null>(storageKeys.user, null)
-      const nextUser = storedUser?.email === email
-        ? storedUser
-        : buildUser({
-            email,
-            name: email.split('@')[0]?.replace(/[^a-zA-Z0-9]/g, '') || currentUser.name,
-          })
-      setUser(nextUser)
-      saveToStorage(storageKeys.user, nextUser)
+
+    const safeEmail = email.trim().toLowerCase()
+    if (!safeEmail || !password) {
+      setIsLoading(false)
+      throw new Error('Email and password are required.')
     }
+
+    const accounts = loadFromStorage<StoredAccount[]>(accountsStorageKey, [])
+    const account = accounts.find((item) => item.email.toLowerCase() === safeEmail)
+
+    if (!account) {
+      const storedUser = loadFromStorage<User | null>(storageKeys.user, null)
+      if (storedUser?.email?.toLowerCase() === safeEmail) {
+        setUser(storedUser)
+        saveToStorage(storageKeys.user, storedUser)
+        setIsLoading(false)
+        return
+      }
+    }
+
+    if (!account || account.password !== password) {
+      setIsLoading(false)
+      throw new Error('Invalid email or password.')
+    }
+
+    setUser(account.user)
+    saveToStorage(storageKeys.user, account.user)
     setIsLoading(false)
-  }, [buildUser])
+  }, [accountsStorageKey])
 
   const logout = useCallback(() => {
     setUser(null)
@@ -73,20 +95,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signup = useCallback(async (name: string, email: string, password: string) => {
     setIsLoading(true)
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    // Mock signup
-    if (name && email && password) {
-      const nextUser = buildUser({
-        name,
-        email,
-      })
-      setUser(nextUser)
-      saveToStorage(storageKeys.user, nextUser)
+
+    const safeName = name.trim()
+    const safeEmail = email.trim().toLowerCase()
+    if (!safeName || !safeEmail || !password) {
+      setIsLoading(false)
+      throw new Error('Name, email, and password are required.')
     }
+
+    const accounts = loadFromStorage<StoredAccount[]>(accountsStorageKey, [])
+    if (accounts.some((item) => item.email.toLowerCase() === safeEmail)) {
+      setIsLoading(false)
+      throw new Error('An account with this email already exists.')
+    }
+
+    const nextUser = buildUser({
+      name: safeName,
+      email: safeEmail,
+    })
+    const nextAccount: StoredAccount = {
+      id: nextUser.id,
+      name: safeName,
+      email: safeEmail,
+      password,
+      user: nextUser,
+    }
+    saveToStorage(accountsStorageKey, [...accounts, nextAccount])
+    setUser(nextUser)
+    saveToStorage(storageKeys.user, nextUser)
     setIsLoading(false)
-  }, [buildUser])
+  }, [accountsStorageKey, buildUser])
 
   const updateUser = useCallback((updates: Partial<User>) => {
     setUser((prev) => {

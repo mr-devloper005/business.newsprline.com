@@ -20,9 +20,9 @@ const values = [
 ]
 
 const milestones = [
-  { year: '2022', title: 'Platform foundation', text: 'Launched as a lightweight newsroom for modern digital PR teams.' },
-  { year: '2024', title: 'Distribution expansion', text: 'Added tiered reach options and deeper release performance analytics.' },
-  { year: '2026', title: 'Campaign-ready suite', text: 'Unified plans, latest-news discovery, and release publishing into one product.' },
+  { title: 'Platform foundation', text: 'Launched as a lightweight newsroom for modern digital PR teams.' },
+  { title: 'Distribution expansion', text: 'Added tiered reach options and deeper release performance analytics.' },
+  { title: 'Campaign-ready suite', text: 'Unified plans, latest-news discovery, and release publishing into one product.' },
 ]
 
 export default function AboutPage() {
@@ -68,9 +68,8 @@ export default function AboutPage() {
           <h2 className="text-2xl font-semibold">Our growth timeline</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-3">
             {milestones.map((item) => (
-              <article key={item.year} className="rounded-2xl border border-[#FFE5CA] bg-[#FFF3E2]/55 p-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#E74646]">{item.year}</p>
-                <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+              <article key={item.title} className="rounded-2xl border border-[#FFE5CA] bg-[#FFF3E2]/55 p-4">
+                <h3 className="text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm leading-7 text-[#6c3b3b]">{item.text}</p>
               </article>
             ))}
